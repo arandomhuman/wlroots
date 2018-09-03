@@ -20,7 +20,8 @@ static void add_pad_group_from_libinput(struct wlr_tablet_pad *pad,
 	struct wlr_tablet_pad_group *group =
 		calloc(1, sizeof(struct wlr_tablet_pad_group));
 	if (!group) {
-		return;
+		wlr_log(WLR_ERROR, "Could not allocate wlr_tablet_pad_group");
+		exit(EXIT_FAILURE);
 	}
 
 	for (size_t i = 0; i < pad->ring_count; ++i) {
@@ -28,12 +29,16 @@ static void add_pad_group_from_libinput(struct wlr_tablet_pad *pad,
 			++group->ring_count;
 		}
 	}
-	group->rings = calloc(sizeof(unsigned int), group->ring_count);
-	size_t ring = 0;
-	for (size_t i = 0; i < pad->ring_count; ++i) {
-		if (libinput_tablet_pad_mode_group_has_ring(li_group, i)) {
-			group->rings[ring++] = i;
+	if (group->ring_count > 0) {
+		group->rings = calloc(sizeof(unsigned int), group->ring_count);
+		size_t ring = 0;
+		for (size_t i = 0; i < pad->ring_count; ++i) {
+			if (libinput_tablet_pad_mode_group_has_ring(li_group, i)) {
+				group->rings[ring++] = i;
+			}
 		}
+	} else {
+		group->rings = NULL;
 	}
 
 	for (size_t i = 0; i < pad->strip_count; ++i) {
@@ -41,12 +46,16 @@ static void add_pad_group_from_libinput(struct wlr_tablet_pad *pad,
 			++group->strip_count;
 		}
 	}
-	group->strips = calloc(sizeof(unsigned int), group->strip_count);
-	size_t strip = 0;
-	for (size_t i = 0; i < pad->strip_count; ++i) {
-		if (libinput_tablet_pad_mode_group_has_strip(li_group, i)) {
-			group->strips[strip++] = i;
+	if (group->strip_count > 0) {
+		group->strips = calloc(sizeof(unsigned int), group->strip_count);
+		size_t strip = 0;
+		for (size_t i = 0; i < pad->strip_count; ++i) {
+			if (libinput_tablet_pad_mode_group_has_strip(li_group, i)) {
+				group->strips[strip++] = i;
+			}
 		}
+	} else {
+		group->strips = NULL;
 	}
 
 	for (size_t i = 0; i < pad->button_count; ++i) {
@@ -54,12 +63,16 @@ static void add_pad_group_from_libinput(struct wlr_tablet_pad *pad,
 			++group->button_count;
 		}
 	}
-	group->buttons = calloc(sizeof(unsigned int), group->button_count);
-	size_t button = 0;
-	for (size_t i = 0; i < pad->button_count; ++i) {
-		if (libinput_tablet_pad_mode_group_has_button(li_group, i)) {
-			group->buttons[button++] = i;
+	if (group->button_count > 0) {
+		group->buttons = calloc(sizeof(unsigned int), group->button_count);
+		size_t button = 0;
+		for (size_t i = 0; i < pad->button_count; ++i) {
+			if (libinput_tablet_pad_mode_group_has_button(li_group, i)) {
+				group->buttons[button++] = i;
+			}
 		}
+	} else {
+		group->buttons = NULL;
 	}
 
 	group->mode_count = libinput_tablet_pad_mode_group_get_num_modes(li_group);
