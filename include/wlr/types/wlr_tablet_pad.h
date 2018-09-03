@@ -76,6 +76,7 @@ struct wlr_event_tablet_pad_ring {
 	uint32_t ring;
 	double position;
 	unsigned int mode;
+	unsigned int group;
 };
 
 enum wlr_tablet_pad_strip_source {
@@ -89,6 +90,7 @@ struct wlr_event_tablet_pad_strip {
 	uint32_t strip;
 	double position;
 	unsigned int mode;
+	unsigned int group;
 };
 
 #endif

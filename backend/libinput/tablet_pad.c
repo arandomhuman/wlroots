@@ -153,6 +153,8 @@ void handle_tablet_pad_ring(struct libinput_event *event,
 	wlr_event.ring = libinput_event_tablet_pad_get_ring_number(pevent);
 	wlr_event.position = libinput_event_tablet_pad_get_ring_position(pevent);
 	wlr_event.mode = libinput_event_tablet_pad_get_mode(pevent);
+	wlr_event.group = libinput_tablet_pad_mode_group_get_index(
+		libinput_event_tablet_pad_get_mode_group(pevent));
 	switch (libinput_event_tablet_pad_get_ring_source(pevent)) {
 	case LIBINPUT_TABLET_PAD_RING_SOURCE_UNKNOWN:
 		wlr_event.source = WLR_TABLET_PAD_RING_SOURCE_UNKNOWN;
@@ -180,6 +182,8 @@ void handle_tablet_pad_strip(struct libinput_event *event,
 	wlr_event.strip = libinput_event_tablet_pad_get_strip_number(pevent);
 	wlr_event.position = libinput_event_tablet_pad_get_strip_position(pevent);
 	wlr_event.mode = libinput_event_tablet_pad_get_mode(pevent);
+	wlr_event.group = libinput_tablet_pad_mode_group_get_index(
+		libinput_event_tablet_pad_get_mode_group(pevent));
 	switch (libinput_event_tablet_pad_get_strip_source(pevent)) {
 	case LIBINPUT_TABLET_PAD_STRIP_SOURCE_UNKNOWN:
 		wlr_event.source = WLR_TABLET_PAD_STRIP_SOURCE_UNKNOWN;
