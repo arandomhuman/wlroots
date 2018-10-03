@@ -146,8 +146,14 @@ static void manager_handle_capture_output(struct wl_client *client,
 	frame->output_swap_buffers.notify = frame_output_handle_swap_buffers;
 }
 
+static void manager_handle_destroy(struct wl_client *client,
+		struct wl_resource *resource) {
+	wl_resource_destroy(resource);
+}
+
 static const struct zwlr_export_dmabuf_manager_v1_interface manager_impl = {
 	.capture_output = manager_handle_capture_output,
+	.destroy = manager_handle_destroy,
 };
 
 static void manager_handle_resource_destroy(struct wl_resource *resource) {
